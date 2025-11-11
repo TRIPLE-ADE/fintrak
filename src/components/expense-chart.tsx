@@ -16,7 +16,7 @@ const ExpenseChart: React.FC = () => {
   }, {});
 
   const data = Object.entries(categoryTotals).map(([category, total]) => ({
-    name: category ? categories.find((c) => c.id === category)?.name : category,
+    name: categories.find((c) => c.id === category)?.name ?? (category || "Uncategorized"),
     value: total,
   }));
 

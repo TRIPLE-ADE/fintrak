@@ -27,7 +27,7 @@ type IncomeStoreState = {
   updateIncome: (id: string, updatedData: Partial<Income>) => void;
   deleteIncome: (id: string) => void;
 
-  addCategory: (category: Omit<IncomeCategory, "id" | "created_at">) => void;
+  addCategory: (category: Omit<IncomeCategory, "id" | "created_at">) => string;
   updateCategory: (id: string, updatedData: Partial<IncomeCategory>) => void;
   deleteCategory: (id: string) => void;
 };
@@ -42,6 +42,7 @@ const mockIncomeData: { incomes: Income[]; categories: IncomeCategory[] } = {
       user_id: mockIncomeUserId,
       amount: 2500,
       description: "Salary",
+      category_id: mockIncomeCategoryId1,
       date: "2024-11-01",
       is_recurring: true,
       created_at: new Date().toISOString(),
@@ -51,6 +52,7 @@ const mockIncomeData: { incomes: Income[]; categories: IncomeCategory[] } = {
       user_id: mockIncomeUserId,
       amount: 300,
       description: "Freelance",
+      category_id: mockIncomeCategoryId2,
       date: "2024-11-10",
       is_recurring: false,
       created_at: new Date().toISOString(),
@@ -60,6 +62,7 @@ const mockIncomeData: { incomes: Income[]; categories: IncomeCategory[] } = {
       user_id: mockIncomeUserId,
       amount: 150,
       description: "Dividends",
+      category_id: mockIncomeCategoryId2,
       date: "2024-12-02",
       is_recurring: false,
       created_at: new Date().toISOString(),
@@ -107,13 +110,16 @@ const useIncomeStore = create<IncomeStoreState>()(
           incomes: state.incomes.filter((income) => income.id !== id),
         })),
 
-      addCategory: (category) =>
+      addCategory: (category) => {
+        const newId = crypto.randomUUID();
         set((state) => ({
           categories: [
             ...state.categories,
-            { ...category, id: crypto.randomUUID(), created_at: new Date().toISOString() },
+            { ...category, id: newId, created_at: new Date().toISOString() },
           ],
-        })),
+        }));
+        return newId;
+      },
       updateCategory: (id, updatedData) =>
         set((state) => ({
           categories: state.categories.map((category) =>

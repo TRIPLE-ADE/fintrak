@@ -31,7 +31,7 @@ type StoreState = {
   updateExpense: (id: string, updatedData: Partial<Expense>) => void;
   deleteExpense: (id: string) => void;
 
-  addCategory: (category: Omit<Category, "id" | "created_at">) => void;
+  addCategory: (category: Omit<Category, "id" | "created_at">) => string;
   updateCategory: (id: string, updatedData: Partial<Category>) => void;
   deleteCategory: (id: string) => void;
 
@@ -127,17 +127,20 @@ const useExpenseStore = create<StoreState>()(
         })),
 
       // Category Actions
-      addCategory: (category) =>
+      addCategory: (category) => {
+        const newId = crypto.randomUUID();
         set((state) => ({
           categories: [
             ...state.categories,
             {
               ...category,
-              id: crypto.randomUUID(),
+              id: newId,
               created_at: new Date().toISOString(),
             },
           ],
-        })),
+        }));
+        return newId;
+      },
       updateCategory: (id, updatedData) =>
         set((state) => ({
           categories: state.categories.map((category) =>

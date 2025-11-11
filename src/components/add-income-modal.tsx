@@ -44,11 +44,7 @@ const AddIncomeModal: React.FC<AddIncomeModalProps> = ({ isOpen, onClose }) => {
 
     let finalCategoryId = categoryId;
     if (isCustomCategory && customCategoryName) {
-      addCategory({ user_id: mockIncomeUserId, name: customCategoryName });
-      const created = [...categories, { id: "", user_id: "", name: "", created_at: "" }].find(
-        (c) => c.name === customCategoryName,
-      );
-      finalCategoryId = created?.id || "";
+      finalCategoryId = addCategory({ user_id: mockIncomeUserId, name: customCategoryName });
     }
 
     const newIncome = {

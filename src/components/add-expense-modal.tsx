@@ -44,12 +44,7 @@ const AddExpenseModal: React.FC<AddBudgetModalProps> = ({ isOpen, onClose }) => 
 
     let finalCategoryId = categoryId;
     if (isCustomCategory && customCategoryName) {
-      // Create category then set id by looking it up
-      addCategory({ user_id: mockUserId, name: customCategoryName });
-      const created = [...categories, { id: "", user_id: "", name: "", created_at: "" }].find(
-        (c) => c.name === customCategoryName,
-      );
-      finalCategoryId = created?.id || "";
+      finalCategoryId = addCategory({ user_id: mockUserId, name: customCategoryName });
     }
 
     const newExpense = {
