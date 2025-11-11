@@ -183,7 +183,7 @@ const Dashboard = () => {
                   id: e.id,
                   amount: e.amount,
                   description: e.description,
-                  category_id: e.category_id ?? "",
+                  category: expenseCategories.find((c) => c.id === e.category_id)?.name ?? "",
                   date: e.date,
                 }));
                 const csv = toCsv(rows);
@@ -199,7 +199,7 @@ const Dashboard = () => {
                   id: i.id,
                   amount: i.amount,
                   description: i.description,
-                  category_id: i.category_id ?? "",
+                  category: incomeCategories.find((c) => c.id === i.category_id)?.name ?? "",
                   date: i.date,
                 }));
                 const csv = toCsv(rows);
